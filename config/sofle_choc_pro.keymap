@@ -18,6 +18,15 @@
 
 / {
 
+  behaviors {
+    // Encoder behavior: clockwise = brighter, counter-clockwise = dimmer
+    rgb_enc: rgb_encoder {
+      compatible = "zmk,behavior-sensor-rotate";
+      #sensor-binding-cells = <0>;
+      bindings = <&rgb_ug RGB_BRI>, <&rgb_ug RGB_BRD>;
+    };
+  };
+
   // Activate ADJUST layer by pressing raise and lower
   conditional_layers {
     compatible = "zmk,conditional-layers";
@@ -110,18 +119,21 @@
     adjust_layer {
       // ----------------------------------------------------------------------------------------------------------------------------
       // | BTCLR  |  BT1    |  BT2    |   BT3   |   BT4   |   BT5   |                  |      |      |       |      |       |       |
-      // | EXTPWR | RGB_HUD | RGB_HUI | RGB_SAD | RGB_SAI | RGB_EFF |                  |      |      |       |      |       |       |
-      // |        | RGB_BRD | RGB_BRI |         |         |         |                  |      |      |       |      |       |       |
-      // |        |         |         |         |         |         | RGB_TOG | |      |      |      |       |      |       |       |
+      // | EXTPWR |         | RGB_HUD | RGB_HUI | RGB_EFF |         |                  |      |      |       |      |       |       |
+      // |        |         | RGB_BRD | RGB_BRI | RGB_TOG |         |                  |      |      |       |      |       |       |
+      // |        |         | RGB_SAD | RGB_SAI |         |         | RGB_TOG | |      |      |      |       |      |       |       |
       //                    |         |         |         |         |         | |      |      |      |       |      |
       display-name = "adjust";
       bindings = <
         &bt BT_CLR        &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4                            &none &none &none &none &none &none
-        &ext_power EP_TOG &rgb_ug RGB_HUD &rgb_ug RGB_HUI &rgb_ug RGB_SAD &rgb_ug RGB_SAI &rgb_ug RGB_EFF                         &none &none &none &none &none &none
-        &none             &rgb_ug RGB_BRD &rgb_ug RGB_BRI &none           &none           &none                                   &none &none &none &none &none &none
-        &none             &none           &none           &none           &none           &none            &rgb_ug RGB_TOG &none  &none &none &none &none &none &none
+        &ext_power EP_TOG &none           &rgb_ug RGB_HUD &rgb_ug RGB_HUI &rgb_ug RGB_EFF &none                                   &none &none &none &none &none &none
+        &none             &none           &rgb_ug RGB_BRD &rgb_ug RGB_BRI &rgb_ug RGB_TOG &none                                   &none &none &none &none &none &none
+        &none             &none           &rgb_ug RGB_SAD &rgb_ug RGB_SAI &none           &none            &rgb_ug RGB_TOG &none  &none &none &none &none &none &none
         &none           &none           &none           &none            &none           &none  &none &none &none &none
       >;
+
+      // Left encoder: RGB brightness (click toggles RGB, see RGB_TOG above); right encoder unchanged
+      sensor-bindings = <&rgb_enc &inc_dec_kp C_PREV C_NEXT>;
     };
   };
 };
