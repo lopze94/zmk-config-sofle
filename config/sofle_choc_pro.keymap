@@ -25,6 +25,13 @@
 / {
 
   behaviors {
+    // Relays the active layer to the right half so it can paint its per-key RGB (see src/layer_leds.c).
+    // The node name is limited to 8 characters because it is sent over the split link.
+    lyrleds: lyrleds {
+      compatible = "custom,behavior-layer-leds";
+      #binding-cells = <1>;
+    };
+
     // Tap: one-shot MAGNET layer. Hold: momentary EXTRA layer (placeholder for now).
     magnet_ht: magnet_tap_hold {
       compatible = "zmk,behavior-hold-tap";

@@ -1,0 +1,19 @@
+config SOFLE_LAYER_LEDS
+    bool "Per-key RGB indicators for the NUM and MAGNET layers"
+    default y
+    depends on ZMK_RGB_UNDERGLOW
+
+if SOFLE_LAYER_LEDS
+
+config SOFLE_LAYER_LEDS_BRIGHTNESS
+    int "Indicator brightness in percent"
+    range 1 100
+    default 30
+
+config SOFLE_LAYER_LEDS_PROBE
+    bool "LED order probe: each key press lights the next LED, one at a time"
+    help
+      Temporary mode for finding the LED order. Press any key on a half to
+      advance to the next LED (0, 1, 2, ...) and note which key it sits under.
+
+endif
