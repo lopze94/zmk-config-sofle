@@ -36,13 +36,13 @@
       // |  ESC  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   | BKSPC |
       // |  TAB  |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |   '   |
       // | SHIFT |  Z  |  X  |  C   |  V   |  B   |  MUTE  |  | PLAY  |  N   |  M    |  ,    |  .   |   /   | SHIFT |
-      //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
+      //               | CTRL | OPT | CMD  | LOWER|  ENTER |  | SPACE | RAISE| CMD   | OPT   | CTRL |
       bindings = <
         &kp GRAVE &kp N1 &kp N2   &kp N3   &kp N4    &kp N5                           &kp N6 &kp N7    &kp N8    &kp N9   &kp N0   &kp GRAVE
         &kp ESC   &kp Q  &kp W    &kp E    &kp R     &kp T                            &kp Y  &kp U     &kp I     &kp O    &kp P    &kp BSPC
         &kp TAB   &kp A  &kp S    &kp D    &kp F     &kp G                            &kp H  &kp J     &kp K     &kp L    &kp SEMI &kp SQT
         &kp LSHFT &kp Z  &kp X    &kp C    &kp V     &kp B   &kp C_MUTE &kp C_PLAY    &kp N  &kp M     &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &kp LGUI &kp LALT &kp LCTRL &mo LOWER  &kp RET    &kp SPACE  &mo RAISE  &kp RCTRL &kp RALT  &kp RGUI
+        &kp LCTRL &kp LALT &kp LGUI &mo LOWER  &kp RET    &kp SPACE  &mo RAISE  &kp RGUI &kp RALT  &kp RCTRL
       >;
 
       sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
@@ -71,15 +71,16 @@
       display-name = "raise";
       // ------------------------------------------------------------------------------------------------------------
       // | BTCLR | BT1  | BT2  |  BT3  |  BT4  |  BT5 |                |      |      |       |      |       |       |
-      // |       | INS  | PSCR | GUI   |       |      |                | PGUP |      |   ^   |      |       |       |
-      // |       | ALT  | CTRL | SHIFT |       | CAPS |                | PGDN |   <- |   v   |  ->  |  DEL  | BKSPC |
+      // |       | SCRN | SCRN | CTRL  | SELALL| REDO |                | PGUP | LINE<|   ^   | LINE>|       |       |
+      // |       | OPT  | CMD  | SHIFT |       | CAPS |                | PGDN |   <- |   v   |  ->  |  DEL  | BKSPC |
       // |       | UNDO | CUT  | COPY  | PASTE |      |      |  |      |      |      |       |      |       |       |
+      // SCRN = Cmd+Shift+3 (full) / Cmd+Shift+4 (selection); LINE< / LINE> = Cmd+Left / Cmd+Right
       //                |      |       |       |      |      |  |      |      |      |       |      |
       bindings = <
         &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4                  &trans    &trans    &trans   &trans    &trans  &trans
-        &trans     &kp INS      &kp PSCRN    &kp K_CMENU  &trans       &trans                        &kp PG_UP &trans    &kp UP   &trans    &kp N0  &trans
-        &trans     &kp LALT     &kp LCTRL    &kp LSHFT    &trans       &kp CLCK                      &kp PG_DN &kp LEFT  &kp DOWN &kp RIGHT &kp DEL &kp BSPC
-        &trans     &kp K_UNDO   &kp K_CUT    &kp K_COPY   &kp K_PASTE  &studio_unlock        &trans  &trans  &trans    &trans    &trans   &trans    &trans  &trans
+        &trans     &kp LG(LS(N3)) &kp LG(LS(N4)) &kp LCTRL &kp LG(A)  &kp LG(LS(Z))                &kp PG_UP &kp LG(LEFT) &kp UP &kp LG(RIGHT) &kp N0 &trans
+        &trans     &kp LALT     &kp LGUI     &kp LSHFT    &trans       &kp CLCK                      &kp PG_DN &kp LEFT  &kp DOWN &kp RIGHT &kp DEL &kp BSPC
+        &trans     &kp LG(Z)   &kp LG(X)    &kp LG(C)    &kp LG(V)    &studio_unlock        &trans  &trans  &trans    &trans    &trans   &trans    &trans  &trans
         &trans       &trans       &trans       &trans        &trans  &trans  &trans    &trans    &trans   &trans
       >;
 
