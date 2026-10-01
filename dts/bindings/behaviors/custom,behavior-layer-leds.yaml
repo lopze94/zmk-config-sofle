@@ -1,5 +1,0 @@
-description: Relays the active layer to the other keyboard half so it can paint its per-key LEDs
-
-compatible: "custom,behavior-layer-leds"
-
-include: one_param.yaml
