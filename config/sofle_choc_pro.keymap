@@ -35,10 +35,11 @@
     };
 
     // Encoder behavior: clockwise = brighter, counter-clockwise = dimmer
+    // (this board's encoders report reversed, same as the volume bindings use VOL_DN first)
     rgb_enc: rgb_encoder {
       compatible = "zmk,behavior-sensor-rotate";
       #sensor-binding-cells = <0>;
-      bindings = <&rgb_ug RGB_BRI>, <&rgb_ug RGB_BRD>;
+      bindings = <&rgb_ug RGB_BRD>, <&rgb_ug RGB_BRI>;
     };
   };
 
@@ -156,15 +157,15 @@
       // ------------------------------------------------------------------------------------------------------------
       // One-shot: tap the MAGNET key, then press one key below (Ctrl+Opt+key is sent). Letters match Magnet's own.
       // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-      // |       |     |     |  L2/3| C2/3 | R2/3 |                   |      |  TL   |  TOP  |  TR  |       | RSTOR |
-      // |       |     |     |  L1/3| C1/3 | R1/3 |                   |      | LEFT  | BOTTOM| RIGHT|       |       |
+      // |       |     | L1/3| C1/3 | R1/3 |      |                   |      |  TL   |  TOP  |  TR  |       | RSTOR |
+      // |       |     | L2/3| C2/3 | R2/3 |      |                   |      | LEFT  | BOTTOM| RIGHT|       |       |
       // |       |PREVD|NEXTD|CENTER|      |      |        |  |       |      |  BL   |       |  BR  |       |       |
       //               |     |      |      |  MAX |        |  |       |      |       |       |      |
       // Halves use the same keys as the arrows on the RAISE layer (I = up, J/K/L = left/down/right)
       bindings = <
         &trans &trans &trans &trans &trans &trans                    &trans   &trans &trans &trans    &trans &trans
-        &trans &trans &trans MG(E)  MG(R)  MG(T)                     &trans   MG(U)  MG(UP) MG(I)     &trans MG(BSPC)
-        &trans &trans &trans MG(D)  MG(F)  MG(G)                     &trans   MG(LEFT) MG(DOWN) MG(RIGHT) &trans &trans
+        &trans &trans MG(D)  MG(F)  MG(G)  &trans                    &trans   MG(U)  MG(UP) MG(I)     &trans MG(BSPC)
+        &trans &trans MG(E)  MG(R)  MG(T)  &trans                    &trans   MG(LEFT) MG(DOWN) MG(RIGHT) &trans &trans
         &trans MGD(LEFT) MGD(RIGHT) MG(C) &trans &trans   &trans &trans   &trans MG(J)  &trans MG(K)  &trans &trans
         &trans &trans &trans &trans MG(RET)  &trans &trans &trans &trans &trans
       >;
