@@ -15,10 +15,25 @@
 #define RAISE 2
 #define NUM 3
 #define ADJUST 4
+#define MAGNET 5
+#define EXTRA 6
+
+// Magnet (macOS window manager) shortcuts are all Ctrl+Option+<key>
+#define MG(k) &kp LC(LA(k))
+#define MGD(k) &kp LC(LA(LG(k)))
 
 / {
 
   behaviors {
+    // Tap: one-shot MAGNET layer. Hold: momentary EXTRA layer (placeholder for now).
+    magnet_ht: magnet_tap_hold {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      flavor = "tap-preferred";
+      tapping-term-ms = <200>;
+      bindings = <&mo>, <&sl>;
+    };
+
     // Encoder behavior: clockwise = brighter, counter-clockwise = dimmer
     rgb_enc: rgb_encoder {
       compatible = "zmk,behavior-sensor-rotate";
@@ -46,13 +61,13 @@
       // |  ESC  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   | BKSPC |
       // |  TAB  |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |   '   |
       // | SHIFT |  Z  |  X  |  C   |  V   |  B   |  MUTE  |  | PLAY  |  N   |  M    |  ,    |  .   |   /   | SHIFT |
-      //               | CTRL | OPT | CMD  | LOWER|  ENTER |  | SPACE | RAISE| NUM   | OPT   | CTRL |
+      //               | CTRL | OPT | CMD  | LOWER|  ENTER |  | SPACE | RAISE| NUM   | MAGNET| CTRL |
       bindings = <
         &kp GRAVE &kp N1 &kp N2   &kp N3   &kp N4    &kp N5                           &kp N6 &kp N7    &kp N8    &kp N9   &kp N0   &kp GRAVE
         &kp ESC   &kp Q  &kp W    &kp E    &kp R     &kp T                            &kp Y  &kp U     &kp I     &kp O    &kp P    &kp BSPC
         &kp TAB   &kp A  &kp S    &kp D    &kp F     &kp G                            &kp H  &kp J     &kp K     &kp L    &kp SEMI &kp SQT
         &kp LSHFT &kp Z  &kp X    &kp C    &kp V     &kp B   &kp C_MUTE &kp C_PLAY    &kp N  &kp M     &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &kp LCTRL &kp LALT &kp LGUI &mo LOWER  &kp RET    &kp SPACE  &mo RAISE  &tog NUM &kp RALT  &kp RCTRL
+        &kp LCTRL &kp LALT &kp LGUI &mo LOWER  &kp RET    &kp SPACE  &mo RAISE  &tog NUM &magnet_ht EXTRA MAGNET  &kp RCTRL
       >;
 
       sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
@@ -134,6 +149,37 @@
 
       // Left encoder: RGB brightness (click toggles RGB, see RGB_TOG above); right encoder unchanged
       sensor-bindings = <&rgb_enc &inc_dec_kp C_PREV C_NEXT>;
+    };
+
+    magnet_layer {
+      display-name = "magnet";
+      // ------------------------------------------------------------------------------------------------------------
+      // One-shot: tap the MAGNET key, then press one key below (Ctrl+Opt+key is sent). Letters match Magnet's own.
+      // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
+      // |       |     |     |  L2/3| C2/3 | R2/3 |                   |      |  TL   |  TOP  |  TR  |       | RSTOR |
+      // |       |     |     |  L1/3| C1/3 | R1/3 |                   |      | LEFT  | BOTTOM| RIGHT|       |       |
+      // |       |PREVD|NEXTD|CENTER|      |      |        |  |       |      |  BL   |       |  BR  |       |       |
+      //               |     |      |      |  MAX |        |  |       |      |       |       |      |
+      // Halves use the same keys as the arrows on the RAISE layer (I = up, J/K/L = left/down/right)
+      bindings = <
+        &trans &trans &trans &trans &trans &trans                    &trans   &trans &trans &trans    &trans &trans
+        &trans &trans &trans MG(E)  MG(R)  MG(T)                     &trans   MG(U)  MG(UP) MG(I)     &trans MG(BSPC)
+        &trans &trans &trans MG(D)  MG(F)  MG(G)                     &trans   MG(LEFT) MG(DOWN) MG(RIGHT) &trans &trans
+        &trans MGD(LEFT) MGD(RIGHT) MG(C) &trans &trans   &trans &trans   &trans MG(J)  &trans MG(K)  &trans &trans
+        &trans &trans &trans &trans MG(RET)  &trans &trans &trans &trans &trans
+      >;
+    };
+
+    extra_layer {
+      display-name = "extra";
+      // Placeholder for the MAGNET key's hold action; everything falls through to the layers below
+      bindings = <
+        &trans &trans &trans &trans &trans &trans                    &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans                    &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans                    &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans      &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+      >;
     };
   };
 };
