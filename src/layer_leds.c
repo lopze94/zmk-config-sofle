@@ -80,18 +80,22 @@ static const struct paint magnet_paint[] = {
 };
 
 /*
- * LED index -> key position (0xFF = no key). THESE ORDERS ARE A GUESS (serpentine columns from
- * the outer column, then thumbs, then the encoder LED). Use CONFIG_SOFLE_LAYER_LEDS_PROBE to
- * find the real order and fix these tables.
+ * LED index -> key position (0xFF = no key).
+ *
+ * Right half (from the owner): encoder, the two left-most thumbs, then a snake through the columns
+ * starting at the inner column, bottom to top, then top to bottom, and so on out to the pinky.
+ * The last three thumbs are a GUESS (at the end of the chain, right to left).
+ *
+ * Left half is the GUESSED mirror of that. Use CONFIG_SOFLE_LAYER_LEDS_PROBE to verify either.
  */
 #define NONE 0xFF
 static const uint8_t left_led_to_position[NUM_LEDS] = {
-    0,  12, 24, 36, 37, 25, 13, 1,  2,  14, 26, 38, 39, 27, 15,
-    3,  4,  16, 28, 40, 41, 29, 17, 5,  50, 51, 52, 53, 54, NONE,
+    NONE, 54, 53, 41, 29, 17, 5,  4,  16, 28, 40, 39, 27, 15, 3,
+    2,    14, 26, 38, 37, 25, 13, 1,  0,  12, 24, 36, 52, 51, 50,
 };
 static const uint8_t right_led_to_position[NUM_LEDS] = {
-    11, 23, 35, 49, 48, 34, 22, 10, 9,  21, 33, 47, 46, 32, 20,
-    8,  7,  19, 31, 45, 44, 30, 18, 6,  55, 56, 57, 58, 59, NONE,
+    NONE, 55, 56, 44, 30, 18, 6,  7,  19, 31, 45, 46, 32, 20, 8,
+    9,    21, 33, 47, 48, 34, 22, 10, 11, 23, 35, 49, 59, 58, 57,
 };
 
 #if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
