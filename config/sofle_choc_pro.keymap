@@ -85,17 +85,18 @@
     default_layer {
       display-name = "default";
       // ------------------------------------------------------------------------------------------------------------
-      // |   `   |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |   `   |
+      // | BRI-  | BRI+ | DESK | MISSN| SPOT | LOCK |                   | LED  | PREV | PLAY | NEXT | LED-  | LED+  |
+      // DESK = Show Desktop (F11), MISSN = Mission Control, SPOT = Spotlight (Cmd+Space), LOCK = Ctrl+Cmd+Q
       // |  ESC  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   | BKSPC |
       // |  TAB  |A/CTL|S/OPT|D/CMD |F/SHFT|  G   |                   |  H   |J/SHFT |K/CMD  |L/OPT |;/CTL  |   '   |
-      // | SHIFT |  Z  |  X  |  C   |  V   |  B   |  MUTE  |  | PLAY  |  N   |  M    |  ,    |  .   |   /   | SHIFT |
+      // | SHIFT |  Z  |  X  |  C   |  V   |  B   |  MUTE  |  | PLAY  |  N   |  M    |  ,    |  .   |   /   |   \   |
       //               | CTRL | OPT | CMD  | LOWER|  ENTER |  | SPACE | RAISE| NUM   | MAGNET| CTRL |
       bindings = <
-        &kp GRAVE &kp N1 &kp N2   &kp N3   &kp N4    &kp N5                           &kp N6 &kp N7    &kp N8    &kp N9   &kp N0   &kp GRAVE
-        &kp ESC   &kp Q  &kp W    &kp E    &kp R     &kp T                            &kp Y  &kp U     &kp I     &kp O    &kp P    &kp BSPC
-        &kp TAB   &hml LCTRL A &hml LALT S &hml LGUI D &hml LSHFT F &kp G                  &kp H  &hmr RSHFT J &hmr RGUI K &hmr RALT L &hmr RCTRL SEMI &kp SQT
-        &kp LSHFT &kp Z  &kp X    &kp C    &kp V     &kp B   &kp C_MUTE &kp C_PLAY    &kp N  &kp M     &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &kp LCTRL &kp LALT &kp LGUI &mo LOWER  &kp RET    &kp SPACE  &mo RAISE  &tog NUM &magnet_ht EXTRA MAGNET  &kp RCTRL
+        &kp C_BRI_DN &kp C_BRI_UP &kp F11     &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &kp LG(SPACE) &kp LC(LG(Q))                         &rgb_ug RGB_TOG &kp C_PREV   &kp C_PP    &kp C_NEXT              &rgb_ug RGB_BRD &rgb_ug RGB_BRI
+        &kp ESC      &kp Q        &kp W       &kp E                             &kp R         &kp T                                 &kp Y     &kp U        &kp I       &kp O                   &kp P           &kp BSPC
+        &kp TAB      &hml LCTRL A &hml LALT S &hml LGUI D                       &hml LSHFT F  &kp G                                 &kp H     &hmr RSHFT J &hmr RGUI K &hmr RALT L             &hmr RCTRL SEMI &kp SQT
+        &kp LSHFT    &kp Z        &kp X       &kp C                             &kp V         &kp B          &kp C_MUTE &kp C_PLAY  &kp N     &kp M        &kp COMMA   &kp DOT                 &kp FSLH        &kp BSLH
+                     &kp LCTRL    &kp LALT    &kp LGUI                          &mo LOWER     &kp RET                               &kp SPACE &mo RAISE    &tog NUM    &magnet_ht EXTRA MAGNET &kp RCTRL
       >;
 
       sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
