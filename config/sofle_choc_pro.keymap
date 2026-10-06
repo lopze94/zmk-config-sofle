@@ -52,6 +52,18 @@
       bindings = <&kp>, <&kp>;
     };
 
+    // One-hand editing shortcuts: tap = letter, hold = Cmd+key. Tap-preferred + prior-idle so normal typing
+    // and rolls never trigger the shortcut. Usage: &cmd_ht <hold> <tap>
+    cmd_ht: cmd_hold_tap {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      flavor = "tap-preferred";
+      tapping-term-ms = <200>;
+      quick-tap-ms = <175>;
+      require-prior-idle-ms = <150>;
+      bindings = <&kp>, <&kp>;
+    };
+
     // Tap: one-shot MAGNET layer. Hold: momentary EXTRA layer (placeholder for now).
     magnet_ht: magnet_tap_hold {
       compatible = "zmk,behavior-hold-tap";
@@ -86,17 +98,18 @@
       display-name = "default";
       // ------------------------------------------------------------------------------------------------------------
       // | BRI-  | BRI+ | DESK | MISSN| SPOT | LOCK |                   | LED  | PREV | PLAY | NEXT | LED-  | LED+  |
+      // Hold W/T/Z/X/C/V/B/N = Cmd+key (close, new tab, undo, cut, copy, paste, redo, new window); tap types the letter
       // DESK = Show Desktop (F11), MISSN = Mission Control, SPOT = Spotlight (Cmd+Space), LOCK = Ctrl+Cmd+Q
-      // |  ESC  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   | BKSPC |
+      // |  ESC  |  Q  |W/CLS|  E   |  R   |T/TAB |                   |  Y   |  U    |  I    |  O   |   P   | BKSPC |
       // |  TAB  |A/CTL|S/OPT|D/CMD |F/SHFT|  G   |                   |  H   |J/SHFT |K/CMD  |L/OPT |;/CTL  |   '   |
-      // | SHIFT |  Z  |  X  |  C   |  V   |  B   |  MUTE  |  | PLAY  |  N   |  M    |  ,    |  .   |   /   |   \   |
+      // | SHIFT |Z/UND|X/CUT|C/COPY|V/PST |B/REDO|  MUTE  |  | PLAY  | N/NEW|  M    |  ,    |  .   |   /   |   \   |
       //               | CTRL | OPT | CMD  | LOWER|  ENTER |  | SPACE | RAISE| NUM   | MAGNET| CTRL |
       bindings = <
-        &kp C_BRI_DN &kp C_BRI_UP &kp F11     &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &kp LG(SPACE) &kp LC(LG(Q))                         &rgb_ug RGB_TOG &kp C_PREV   &kp C_PP    &kp C_NEXT              &rgb_ug RGB_BRD &rgb_ug RGB_BRI
-        &kp ESC      &kp Q        &kp W       &kp E                             &kp R         &kp T                                 &kp Y     &kp U        &kp I       &kp O                   &kp P           &kp BSPC
-        &kp TAB      &hml LCTRL A &hml LALT S &hml LGUI D                       &hml LSHFT F  &kp G                                 &kp H     &hmr RSHFT J &hmr RGUI K &hmr RALT L             &hmr RCTRL SEMI &kp SQT
-        &kp LSHFT    &kp Z        &kp X       &kp C                             &kp V         &kp B          &kp C_MUTE &kp C_PLAY  &kp N     &kp M        &kp COMMA   &kp DOT                 &kp FSLH        &kp BSLH
-                     &kp LCTRL    &kp LALT    &kp LGUI                          &mo LOWER     &kp RET                               &kp SPACE &mo RAISE    &tog NUM    &magnet_ht EXTRA MAGNET &kp RCTRL
+        &kp C_BRI_DN &kp C_BRI_UP    &kp F11         &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &kp LG(SPACE)   &kp LC(LG(Q))                               &rgb_ug RGB_TOG &kp C_PREV   &kp C_PP    &kp C_NEXT              &rgb_ug RGB_BRD &rgb_ug RGB_BRI
+        &kp ESC      &kp Q           &cmd_ht LG(W) W &kp E                             &kp R           &cmd_ht LG(T) T                             &kp Y           &kp U        &kp I       &kp O                   &kp P           &kp BSPC
+        &kp TAB      &hml LCTRL A    &hml LALT S     &hml LGUI D                       &hml LSHFT F    &kp G                                       &kp H           &hmr RSHFT J &hmr RGUI K &hmr RALT L             &hmr RCTRL SEMI &kp SQT
+        &kp LSHFT    &cmd_ht LG(Z) Z &cmd_ht LG(X) X &cmd_ht LG(C) C                   &cmd_ht LG(V) V &cmd_ht LG(LS(Z)) B  &kp C_MUTE &kp C_PLAY  &cmd_ht LG(N) N &kp M        &kp COMMA   &kp DOT                 &kp FSLH        &kp BSLH
+                     &kp LCTRL       &kp LALT        &kp LGUI                          &mo LOWER       &kp RET                                     &kp SPACE       &mo RAISE    &tog NUM    &magnet_ht EXTRA MAGNET &kp RCTRL
       >;
 
       sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
