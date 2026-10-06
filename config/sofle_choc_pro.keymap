@@ -16,7 +16,6 @@
 #define NUM 3
 #define ADJUST 4
 #define MAGNET 5
-#define EXTRA 6
 
 // Magnet (macOS window manager) shortcuts are all Ctrl+Option+<key>
 #define MG(k) &kp LC(LA(k))
@@ -64,15 +63,6 @@
       bindings = <&kp>, <&kp>;
     };
 
-    // Tap: one-shot MAGNET layer. Hold: momentary EXTRA layer (placeholder for now).
-    magnet_ht: magnet_tap_hold {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      flavor = "tap-preferred";
-      tapping-term-ms = <200>;
-      bindings = <&mo>, <&sl>;
-    };
-
     // Encoder behavior: clockwise = brighter, counter-clockwise = dimmer
     // (this board's encoders report reversed, same as the volume bindings use VOL_DN first)
     rgb_enc: rgb_encoder {
@@ -97,19 +87,20 @@
     default_layer {
       display-name = "default";
       // Hold W/T/Z/X/C/V/B = Cmd+key (close, new tab, undo, cut, copy, paste, redo); tap types the letter
-      // DESK = Show Desktop (F11), MISSN = Mission Control, SPOT = Spotlight (Cmd+Space), LOCK = Ctrl+Cmd+Q
-      // ------------------------------------------------------------------------------------------------------------
+      // Hold the left-thumb MAGNET key = MAGNET layer (no tap action). Hold the thumb NUM key = NUM layer
+      // DESK = Show Desktop (F11), MISSN = Mission Control, SPOT = Spotlight (Cmd+Space), LOCK = Ctrl+Cmd+Q, LED = RGB underglow
+      // -----------------------------------------------------------------------------------------------------------------
       // |  BRI- |  BRI+ |  DESK | MISSN |  SPOT |  LOCK |               |  LED  |  PREV |  PLAY |  NEXT |  LED- |  LED+ |
       // |  ESC  |   Q   | W/CLS |   E   |   R   | T/TAB |               |   Y   |   U   |   I   |   O   |   P   | BKSPC |
       // |  TAB  | A/CTL | S/OPT | D/CMD | F/SHFT|   G   |               |   H   | J/SHFT| K/CMD | L/OPT | ;/CTL |   '   |
       // |   -   | Z/UND | X/CUT | C/COPY| V/PST | B/REDO|  MUTE | ZOOM0 |   N   |   M   |   ,   |   .   |   /   |   +   |
-      //         |  CTRL |  OPT  |  NUM  | LOWER | ENTER |               | SPACE | RAISE |       | MAGNET|  CTRL |
+      //         |MAGNET |  OPT  |  NUM  | LOWER | ENTER |               | SPACE | RAISE |       |       |  CTRL |
       bindings = <
-        &kp C_BRI_DN &kp C_BRI_UP    &kp F11         &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &kp LG(SPACE)   &kp LC(LG(Q))                               &rgb_ug RGB_TOG &kp C_PREV   &kp C_PP    &kp C_NEXT              &rgb_ug RGB_BRD &rgb_ug RGB_BRI
-        &kp ESC      &kp Q           &cmd_ht LG(W) W &kp E                             &kp R           &cmd_ht LG(T) T                             &kp Y           &kp U        &kp I       &kp O                   &kp P           &kp BSPC
-        &kp TAB      &hml LCTRL A    &hml LALT S     &hml LGUI D                       &hml LSHFT F    &kp G                                       &kp H           &hmr RSHFT J &hmr RGUI K &hmr RALT L             &hmr RCTRL SEMI &kp SQT
-        &kp MINUS    &cmd_ht LG(Z) Z &cmd_ht LG(X) X &cmd_ht LG(C) C                   &cmd_ht LG(V) V &cmd_ht LG(LS(Z)) B  &kp C_MUTE &kp LG(N0)  &kp N           &kp M        &kp COMMA   &kp DOT                 &kp FSLH        &kp PLUS
-                     &kp LCTRL       &kp LALT        &mo NUM                           &mo LOWER       &kp RET                                     &kp SPACE       &mo RAISE    &none       &magnet_ht EXTRA MAGNET &kp RCTRL
+        &kp C_BRI_DN &kp C_BRI_UP    &kp F11         &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &kp LG(SPACE)   &kp LC(LG(Q))                               &rgb_ug RGB_TOG &kp C_PREV   &kp C_PP    &kp C_NEXT  &rgb_ug RGB_BRD &rgb_ug RGB_BRI
+        &kp ESC      &kp Q           &cmd_ht LG(W) W &kp E                             &kp R           &cmd_ht LG(T) T                             &kp Y           &kp U        &kp I       &kp O       &kp P           &kp BSPC
+        &kp TAB      &hml LCTRL A    &hml LALT S     &hml LGUI D                       &hml LSHFT F    &kp G                                       &kp H           &hmr RSHFT J &hmr RGUI K &hmr RALT L &hmr RCTRL SEMI &kp SQT
+        &kp MINUS    &cmd_ht LG(Z) Z &cmd_ht LG(X) X &cmd_ht LG(C) C                   &cmd_ht LG(V) V &cmd_ht LG(LS(Z)) B  &kp C_MUTE &kp LG(N0)  &kp N           &kp M        &kp COMMA   &kp DOT     &kp FSLH        &kp PLUS
+                     &mo MAGNET      &kp LALT        &mo NUM                           &mo LOWER       &kp RET                                     &kp SPACE       &mo RAISE    &none       &none       &kp RCTRL
       >;
 
       sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LG(MINUS) LG(EQUAL)>;
@@ -117,12 +108,13 @@
 
     lower_layer {
       display-name = "lower";
-      // ------------------------------------------------------------------------------------------------------------
-      // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-      // |   ~   |     |     |      |      |      |                   |  -   |   =   |   +   |  {   |   }   |   \   |
-      // |   `   |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |   |   |
-      // |       |     |     |      |      |      |        |  |       |      |       |       |  [   |   ]   |       |
-      //               |     |      |      |      |        |  |       |      |       |       |      |
+      // Symbols only. Brackets pair up around the parens: { } above, [ ] below. - = + and \ sit on the right
+      // -----------------------------------------------------------------------------------------------------------------
+      // |       |       |       |       |       |       |               |       |       |       |       |       |       |
+      // |   ~   |       |       |       |       |       |               |   -   |   =   |   +   |   {   |   }   |   \   |
+      // |   `   |   !   |   @   |   #   |   $   |   %   |               |   ^   |   &   |   *   |   (   |   )   |   |   |
+      // |       |       |       |       |       |       |       |       |       |       |       |   [   |   ]   |       |
+      //         |       |       |       |       |       |               |       |       |       |       |       |
       bindings = <
         &trans    &trans   &trans &trans   &trans   &trans                    &trans    &trans    &trans    &trans   &trans   &trans
         &kp TILDE &trans   &trans &trans   &trans   &trans                    &kp MINUS &kp EQUAL &kp PLUS  &kp LBRC &kp RBRC &kp BSLH
@@ -136,13 +128,13 @@
 
     raise_layer {
       display-name = "raise";
-      // ------------------------------------------------------------------------------------------------------------
-      // | BTCLR | BT1  | BT2  |  BT3  |  BT4  |  BT5 |                |      |      |       |      |       |       |
-      // |       | SCRN | SCRN |       | SELALL| REDO |                | PGUP | LINE<|   ^   | LINE>|  DEL  | BKSPC |
-      // |       | CTRL | OPT  | CMD   | SHIFT | CAPS |                | PGDN |   <- |   v   |  ->  |       |       |
-      // |       | UNDO | CUT  | COPY  | PASTE |      |      |  |      |      | WORD< |       | WORD> |       |       |
-      // SCRN = Cmd+Shift+4 (selection) / Cmd+Shift+5 (more options); LINE< / LINE> = Cmd+Left / Cmd+Right
-      //                |      |       |       |      |      |  |      |      |      |       |      |
+      // SCRN4/5 = Cmd+Shift+4 (selection) / Cmd+Shift+5 (more options); LINE< / LINE> = Cmd+Left / Cmd+Right; WORD< / WORD> = Opt+Left / Opt+Right
+      // -----------------------------------------------------------------------------------------------------------------
+      // | BTCLR |  BT1  |  BT2  |  BT3  |  BT4  |  BT5  |               |       |       |       |       |       |       |
+      // |       | SCRN4 | SCRN5 |       | SELALL|  REDO |               |  PGUP | LINE< |   UP  | LINE> |  DEL  | BKSPC |
+      // |       |  CTRL |  OPT  |  CMD  | SHIFT |  CAPS |               |  PGDN |  LEFT |  DOWN | RIGHT |       |       |
+      // |       |  UNDO |  CUT  |  COPY | PASTE |  UNLK |       |       |       | WORD< |       | WORD> |       |       |
+      //         |       |       |       |       |       |               |       |       |       |       |       |
       bindings = <
         &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4                  &trans    &trans    &trans   &trans    &trans  &trans
         &trans     &kp LG(LS(N4)) &kp LG(LS(N5)) &trans &kp LG(A)  &kp LG(LS(Z))                &kp PG_UP &kp LG(LEFT) &kp UP &kp LG(RIGHT) &kp DEL &kp BSPC
@@ -156,16 +148,15 @@
 
     num_layer {
       display-name = "num";
-      // ------------------------------------------------------------------------------------------------------------
-      // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-      // |       |     |     |  ^   |  F4  |  ^   |                   |  /   |  7    |  8    |  9   |   *   | BKSPC |
-      // |       |     |  <  |  v   |  >   |  %   |                   |  -   |  4    |  5    |  6   |   +   |       |
-      // |       |     |  (  |  )   |      |      |        |  |       |  =   |  1    |  2    |  3   |   .   |   =   |
-      //               |     |      |      |      |        |  |       |  0    |       |      |
-      // Left hand: E/S/D/F act as up/left/down/right arrows (Excel navigation), no layer switch needed
-      // F4 (above the right arrow) toggles Excel's absolute/relative cell reference lock ($A$1)
-      // Momentary: hold the NUM key (left thumb, where CMD is on the base layer); release to leave
-      // Digits sit one row below the letters they overlay, 0 on the right thumb (RAISE key). Left is lower, right is raise: - / % shrink on the left, + * ^ grow on the right, bottom-up in strength
+      // Momentary: hold the NUM key (left thumb on the base layer); release to leave
+      // Left hand: E/S/D/F act as up/left/down/right arrows, F4 above the right arrow toggles Excel's $ reference lock
+      // Digits sit one row below the letters they overlay, 0 on the RAISE thumb key. Left is lower, right is raise: - / shrink, + * grow
+      // -----------------------------------------------------------------------------------------------------------------
+      // |       |       |       |       |       |       |               |       |       |       |       |       |       |
+      // |       |       |       |   UP  |   F4  |   ^   |               |   /   |   7   |   8   |   9   |   *   | BKSPC |
+      // |       |       |  LEFT |  DOWN | RIGHT |   %   |               |   -   |   4   |   5   |   6   |   +   |       |
+      // |       |       |   (   |   )   |       |       |       |       |   =   |   1   |   2   |   3   |   .   |   =   |
+      //         |       |       |       |       |       |               |       |   0   |       |       |       |
       bindings = <
         &trans &trans &trans   &trans   &trans    &trans                    &trans    &trans &trans &trans &trans    &trans
         &trans &trans &trans   &kp UP   &kp F4    &kp CARET                 &kp FSLH  &kp N7 &kp N8 &kp N9 &kp ASTRK &kp BSPC
@@ -176,14 +167,14 @@
     };
 
     adjust_layer {
-      // ----------------------------------------------------------------------------------------------------------------------------
-      // | BTCLR  |  BT1    |  BT2    |   BT3   |   BT4   |   BT5   |                  |      |      |       |      |       |       |
-      // | EXTPWR |         | RGB_HUD | RGB_HUI | RGB_EFF |         |                  |      |      |       |      |       |       |
-      // |        |         | RGB_BRD | RGB_BRI | RGB_TOG |         |                  |      |      |       |      |       |       |
-      // |  BOOT  |         | RGB_SAD | RGB_SAI |         |         | RGB_TOG | |      |      |      |       |      |       |  BOOT |
-      // BOOT = &bootloader: resets the half whose key you press into UF2 mode (no pin needed)
-      //                    |         |         |         |         |         | |      |      |      |       |      |
       display-name = "adjust";
+      // BOOT = &bootloader: resets the half whose key you press into UF2 mode (no pin needed)
+      // -----------------------------------------------------------------------------------------------------------------
+      // | BTCLR |  BT1  |  BT2  |  BT3  |  BT4  |  BT5  |               |       |       |       |       |       |       |
+      // | EXTPWR|       |RGB_HUD|RGB_HUI|RGB_EFF|       |               |       |       |       |       |       |       |
+      // |       |       |RGB_BRD|RGB_BRI|RGB_TOG|       |               |       |       |       |       |       |       |
+      // |  BOOT |       |RGB_SAD|RGB_SAI|       |       |RGB_TOG|       |       |       |       |       |       |  BOOT |
+      //         |       |       |       |       |       |               |       |       |       |       |       |
       bindings = <
         &bt BT_CLR        &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4                            &none &none &none &none &none &none
         &ext_power EP_TOG &none           &rgb_ug RGB_HUD &rgb_ug RGB_HUI &rgb_ug RGB_EFF &none                                   &none &none &none &none &none &none
@@ -198,32 +189,20 @@
 
     magnet_layer {
       display-name = "magnet";
-      // ------------------------------------------------------------------------------------------------------------
-      // One-shot: tap the MAGNET key, then press one key below (Ctrl+Opt+key is sent). Letters match Magnet's own.
-      // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-      // |       |     | L1/3| C1/3 | R1/3 |      |                   |      |  TL   |  TOP  |  TR  |       | RSTOR |
-      // |       |     | L2/3| C2/3 | R2/3 |      |                   |      | LEFT  | BOTTOM| RIGHT|       |       |
-      // |       |PREVD|NEXTD|CENTER|      |      |        |  |       |      |  BL   |       |  BR  |       |       |
-      //               |     |      |      |  MAX |        |  |       |      |       |       |      |
+      // Hold the left-thumb MAGNET key, then press one key below (Ctrl+Opt+key is sent). Letters match Magnet's own.
       // Halves use the same keys as the arrows on the RAISE layer (I = up, J/K/L = left/down/right)
+      // -----------------------------------------------------------------------------------------------------------------
+      // |       |       |       |       |       |       |               |       |       |       |       |       |       |
+      // |       |       |  L1/3 |  C1/3 |  R1/3 |       |               |       |   TL  |  TOP  |   TR  |       | RSTOR |
+      // |       |       |  L2/3 |  C2/3 |  R2/3 |       |               |       |  LEFT | BOTTOM| RIGHT |       |       |
+      // |       |       |       |       |       | PREVD |       |       | NEXTD |   BL  |       |   BR  |       |       |
+      //         |       |       |       |       |  MAX  |               | CENTER|       |       |       |       |
       bindings = <
-        &trans &trans &trans &trans &trans &trans                    &trans   &trans &trans &trans    &trans &trans
-        &trans &trans MG(D)  MG(F)  MG(G)  &trans                    &trans   MG(U)  MG(UP) MG(I)     &trans MG(BSPC)
-        &trans &trans MG(E)  MG(R)  MG(T)  &trans                    &trans   MG(LEFT) MG(DOWN) MG(RIGHT) &trans &trans
-        &trans MGD(LEFT) MGD(RIGHT) MG(C) &trans &trans   &trans &trans   &trans MG(J)  &trans MG(K)  &trans &trans
-        &trans &trans &trans &trans MG(RET)  &trans &trans &trans &trans &trans
-      >;
-    };
-
-    extra_layer {
-      display-name = "extra";
-      // Placeholder for the MAGNET key's hold action; everything falls through to the layers below
-      bindings = <
-        &trans &trans &trans &trans &trans &trans                    &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans                    &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans                    &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans &trans      &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans                    &trans     &trans   &trans   &trans    &trans &trans
+        &trans &trans MG(D)  MG(F)  MG(G)  &trans                    &trans     MG(U)    MG(UP)   MG(I)     &trans MG(BSPC)
+        &trans &trans MG(E)  MG(R)  MG(T)  &trans                    &trans     MG(LEFT) MG(DOWN) MG(RIGHT) &trans &trans
+        &trans &trans &trans &trans &trans MGD(LEFT)  &trans &trans  MGD(RIGHT) MG(J)    &trans   MG(K)     &trans &trans
+               &trans &trans &trans &trans MG(RET)                   MG(C)      &trans   &trans   &trans    &trans
       >;
     };
   };
