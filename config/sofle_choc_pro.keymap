@@ -158,19 +158,19 @@
       display-name = "num";
       // ------------------------------------------------------------------------------------------------------------
       // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-      // |       |     |  (  |  ^   |  )   |  ^   |                   |  /   |  7    |  8    |  9   |   *   | BKSPC |
+      // |       |     |     |  ^   |  F4  |  ^   |                   |  /   |  7    |  8    |  9   |   *   | BKSPC |
       // |       |     |  <  |  v   |  >   |  %   |                   |  -   |  4    |  5    |  6   |   +   |       |
-      // |       |     |     |      |  F4  |      |        |  |       |      |  1    |  2    |  3   |   .   |   =   |
+      // |       |     |  (  |  )   |      |      |        |  |       |  =   |  1    |  2    |  3   |   .   |   =   |
       //               |     |      |      |      |        |  |       |  0    |       |      |
       // Left hand: E/S/D/F act as up/left/down/right arrows (Excel navigation), no layer switch needed
-      // F4 (under the right arrow) toggles Excel's absolute/relative cell reference lock ($A$1)
+      // F4 (above the right arrow) toggles Excel's absolute/relative cell reference lock ($A$1)
       // Momentary: hold the NUM key (left thumb, where CMD is on the base layer); release to leave
       // Digits sit one row below the letters they overlay, 0 on the right thumb (RAISE key). Left is lower, right is raise: - / % shrink on the left, + * ^ grow on the right, bottom-up in strength
       bindings = <
         &trans &trans &trans   &trans   &trans    &trans                    &trans    &trans &trans &trans &trans    &trans
-        &trans &trans &kp LPAR &kp UP   &kp RPAR  &kp CARET                 &kp FSLH  &kp N7 &kp N8 &kp N9 &kp ASTRK &kp BSPC
+        &trans &trans &trans   &kp UP   &kp F4    &kp CARET                 &kp FSLH  &kp N7 &kp N8 &kp N9 &kp ASTRK &kp BSPC
         &trans &trans &kp LEFT &kp DOWN &kp RIGHT &kp PRCNT                 &kp MINUS &kp N4 &kp N5 &kp N6 &kp PLUS  &trans
-        &trans &trans &trans   &trans   &kp F4    &trans     &trans &trans  &trans    &kp N1 &kp N2 &kp N3 &kp DOT   &kp EQUAL
+        &trans &trans &kp LPAR &kp RPAR &trans    &trans     &trans &trans  &kp EQUAL &kp N1 &kp N2 &kp N3 &kp DOT   &kp EQUAL
                &trans &trans   &trans   &trans    &trans                    &trans    &kp N0 &trans &trans &trans
       >;
     };
