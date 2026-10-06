@@ -82,13 +82,13 @@
       // |  ESC  |   Q   |   W   |   E   |   R   |   T   |               |   Y   |   U   |   I   |   O   |   P   | BKSPC |
       // |  TAB  | A/CTL | S/OPT | D/CMD | F/SHFT|   G   |               |   H   | J/SHFT| K/CMD | L/OPT | ;/CTL |   '   |
       // |   -   |   Z   |   X   |   C   |   V   |   B   |  MUTE | ZOOM0 |   N   |   M   |   ,   |   .   |   /   |   +   |
-      //         |MAGNET |  OPT  |  NUM  | LOWER | ENTER |               | SPACE | RAISE |       |       |  CTRL |
+      //         |MAGNET |  OPT  |  NUM  | LOWER | SPACE |               | ENTER | RAISE |       |       |  CTRL |
       bindings = <
         &kp C_BRI_DN &kp C_BRI_UP    &kp F11         &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &kp LG(SPACE)   &kp LC(LG(Q))                               &rgb_ug RGB_TOG &kp C_PREV   &kp C_PP    &kp C_NEXT  &rgb_ug RGB_BRD &rgb_ug RGB_BRI
         &kp ESC      &kp Q           &kp W           &kp E                             &kp R           &kp T                                       &kp Y           &kp U        &kp I       &kp O       &kp P           &kp BSPC
         &kp TAB      &hml LCTRL A    &hml LALT S     &hml LGUI D                       &hml LSHFT F    &kp G                                       &kp H           &hmr RSHFT J &hmr RGUI K &hmr RALT L &hmr RCTRL SEMI &kp SQT
         &kp MINUS    &kp Z           &kp X           &kp C                             &kp V           &kp B                &kp C_MUTE &kp LG(N0)  &kp N           &kp M        &kp COMMA   &kp DOT     &kp FSLH        &kp PLUS
-                     &mo MAGNET      &kp LALT        &mo NUM                           &mo LOWER       &kp RET                                     &kp SPACE       &mo RAISE    &none       &none       &kp RCTRL
+                     &mo MAGNET      &kp LALT        &mo NUM                           &mo LOWER       &kp SPACE                                   &kp RET         &mo RAISE    &none       &none       &kp RCTRL
       >;
 
       sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LG(MINUS) LG(EQUAL)>;
@@ -184,13 +184,13 @@
       // |       |       |  L1/3 |  C1/3 |  R1/3 |       |               |       |   TL  |  TOP  |   TR  |       | RSTOR |
       // |       |       |  L2/3 |  C2/3 |  R2/3 |       |               |       |  LEFT | BOTTOM| RIGHT |       |       |
       // |       |       |       |       |       | PREVD |       |       | NEXTD |   BL  |       |   BR  |       |       |
-      //         |       |       |       |       |  MAX  |               | CENTER|       |       |       |       |
+      //         |       |       |       |       | CENTER|               |  MAX  |       |       |       |       |
       bindings = <
         &trans &trans &trans &trans &trans &trans                    &trans     &trans   &trans   &trans    &trans &trans
         &trans &trans MG(D)  MG(F)  MG(G)  &trans                    &trans     MG(U)    MG(UP)   MG(I)     &trans MG(BSPC)
         &trans &trans MG(E)  MG(R)  MG(T)  &trans                    &trans     MG(LEFT) MG(DOWN) MG(RIGHT) &trans &trans
         &trans &trans &trans &trans &trans MGD(LEFT)  &trans &trans  MGD(RIGHT) MG(J)    &trans   MG(K)     &trans &trans
-               &trans &trans &trans &trans MG(RET)                   MG(C)      &trans   &trans   &trans    &trans
+               &trans &trans &trans &trans MG(C)                     MG(RET)    &trans   &trans   &trans    &trans
       >;
     };
   };
