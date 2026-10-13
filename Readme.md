@@ -3,7 +3,7 @@
 This repository contains my ZMK firmware configuration for the Keebart
 [Sofle Choc Pro BT](https://keebart.com/products/sofle-wireless) (Bluetooth
 name `Sofle Choc BT`), forked from Keebart's config and trimmed to the Sofle
-only. It includes the board definition, a macOS-oriented keymap, ZMK Studio
+only. It includes the board definition, the keymap, ZMK Studio
 support, Sharp Memory-in-Pixel display support, RGB underglow, and GitHub
 Actions firmware builds.
 
