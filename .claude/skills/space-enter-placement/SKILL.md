@@ -18,7 +18,7 @@ The thumb row in the `bindings` block reads left to right:
 
 ```
 //               | GUI | ALT  |  FN  | LOWER|  SPACE |  | ENTER | RAISE|MAGNET | ALT   | GUI  |
-&kp LGUI &kp LALT &mo FN    &mo LOWER  &lt NUM SPACE  &kp RET  &mo RAISE  &mo MAGNET &kp RALT  &kp RGUI
+&kp LGUI &kp LALT  &mo FN    &mo LOWER  &lt NUM SPACE  &kp RET  &mo RAISE  &mo MAGNET &kp RALT  &kp RGUI
 ```
 
 The inner thumb keys are the 5th binding of the left thumb row and the 1st binding of the right thumb row.
