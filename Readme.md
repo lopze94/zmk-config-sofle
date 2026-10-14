@@ -115,5 +115,4 @@ saturation, brightness, effect, and toggle controls are on the Adjust layer
 ## Rotary encoders
 
 Sofle Choc Pro uses one encoder for volume and the other for previous/next
-media track. The encoder actions are available on its default, Lower, and
-Raise layers.
+media track. On the Adjust layer the left encoder changes RGB brightness.
