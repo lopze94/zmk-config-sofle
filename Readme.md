@@ -23,6 +23,27 @@ The build matrix is defined in `build.yaml`. Normal firmware uses the custom
 configuration.
 The central, left-side builds include ZMK Studio support.
 
+### Layouts
+
+Each layout is its own keymap file in `config/`, and every push builds all of
+them:
+
+| Layout | Keymap | Left-half artifact |
+|---|---|---|
+| Full | `config/sofle_full.keymap` | `sofle_full_left` |
+| Small | `config/sofle_small.keymap` | `sofle_small_left` |
+
+Only the left (central) half uses the keymap, so the single `sofle_right`
+firmware works with every layout. To switch layouts, flash a different left
+half. Settings shared by all layouts (`config/sofle_choc_pro.conf`,
+`config/west.yml`) stay in one place.
+
+To add a layout, create `config/sofle_<name>.keymap` and add a left-half entry
+for it to `build.yaml` with
+`-DKEYMAP_FILE=${GITHUB_WORKSPACE}/config/sofle_<name>.keymap`.
+
+### Local builds
+
 For a local build, first create a normal ZMK west workspace using the manifest
 in `config/west.yml`. From the workspace root, run a command such as:
 
@@ -33,10 +54,13 @@ west build -s zmk/app -d build/sofle-left \
   -DZMK_CONFIG=/path/to/zmk-config/config \
   -DZMK_EXTRA_MODULES=/path/to/zmk-config \
   -DSHIELD=sharp_mip \
-  -DCONFIG_ZMK_STUDIO=y
+  -DCONFIG_ZMK_STUDIO=y \
+  -DKEYMAP_FILE=/path/to/zmk-config/config/sofle_full.keymap
 ```
 
-Change the board target as required. The resulting firmware is written to
+Always pass `-DKEYMAP_FILE`. Without it, ZMK silently falls back to the board's
+stock keymap in `boards/arm/sofle_choc_pro/`. Change the board target as
+required. The resulting firmware is written to
 `build/sofle-left/zephyr/zmk.uf2`.
 
 ## Configuration settings
@@ -53,10 +77,10 @@ The halves use different firmware because the left half is the central side
 and the right half is the peripheral side.
 
 1. Download or build the firmware package.
-2. Enter the bootloader on the right half and copy its matching right-side UF2
-   file to the USB mass-storage device.
-3. Enter the bootloader on the left half and copy its matching left-side UF2
-   file.
+2. Enter the bootloader on the right half and copy the `sofle_right` UF2 file
+   to the USB mass-storage device.
+3. Enter the bootloader on the left half and copy the left-side UF2 file for
+   the layout you want (`sofle_full_left` or `sofle_small_left`).
 4. Reconnect the keyboard and pair it with the host if necessary.
 
 Enter the bootloader by double-pressing the physical reset button, or use the
@@ -80,9 +104,9 @@ Settings-reset firmware is temporary and is not a usable keyboard firmware.
 ### ZMK Keymap Editor
 
 The [ZMK Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) edits the
-source `.keymap` files in this repository. Open
-`config/sofle_choc_pro.keymap`; `config/sofle_choc_pro.json` provides the
-visual geometry.
+source `.keymap` files in this repository. Open the layout you want to change
+(`config/sofle_full.keymap` or `config/sofle_small.keymap`);
+`config/sofle_choc_pro.json` provides the visual geometry.
 
 Editing and committing a source keymap triggers a new GitHub Actions build.
 This is the recommended workflow for maintaining and distributing defaults.
@@ -115,5 +139,6 @@ saturation, brightness, effect, and toggle controls are on the Adjust layer
 ## Rotary encoders
 
 Sofle Choc Pro uses one encoder for volume and the other for previous/next
-media track. The encoder actions are available on its default, Lower, and
-Raise layers.
+media track. In the full layout the encoder actions are available on its
+default, Lower, and Raise layers. In the small layout the left encoder changes
+RGB brightness on the Adjust layer.

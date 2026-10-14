@@ -5,17 +5,26 @@
 # pass flags to the build command, `snippet` to add a Zephyr snippet, and
 # `artifact-name` to assign a name to distinguish build outputs from each other:
 #
+# Each layout is a separate keymap in config/, selected with -DKEYMAP_FILE.
+# Only the left (central) half uses the keymap, so one right-half build works
+# with every layout.
 ---
 include:
   - board: sofle_choc_pro_left
     snippet: studio-rpc-usb-uart
     shield: sharp_mip
-    cmake-args: -DCONFIG_ZMK_STUDIO=y
-    artifact-name: sofle_choc_pro_bt_left
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DKEYMAP_FILE=${GITHUB_WORKSPACE}/config/sofle_full.keymap
+    artifact-name: sofle_full_left
+  - board: sofle_choc_pro_left
+    snippet: studio-rpc-usb-uart
+    shield: sharp_mip
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DKEYMAP_FILE=${GITHUB_WORKSPACE}/config/sofle_small.keymap
+    artifact-name: sofle_small_left
   - board: sofle_choc_pro_right
     shield: sharp_mip
     snippet: studio-rpc-usb-uart
-    artifact-name: sofle_choc_pro_bt_right
+    cmake-args: -DKEYMAP_FILE=${GITHUB_WORKSPACE}/config/sofle_full.keymap
+    artifact-name: sofle_right
 
   - board: sofle_choc_pro_left
     shield: settings_reset
