@@ -17,8 +17,8 @@ Convention for `config/sofle_choc_pro.keymap`:
 The thumb row in the `bindings` block reads left to right:
 
 ```
-//               | GUI | ALT  | CTRL | LOWER|  SPACE |  | ENTER | RAISE| CTRL  | ALT   | GUI  |
-&kp LGUI &kp LALT &kp LCTRL &mo LOWER  &lt NUM SPACE  &kp RET  &mo RAISE  &kp RCTRL &kp RALT  &kp RGUI
+//               | GUI | ALT  |  FN  | LOWER|  SPACE |  | ENTER | RAISE|MAGNET | ALT   | GUI  |
+&kp LGUI &kp LALT &mo FN    &mo LOWER  &lt NUM SPACE  &kp RET  &mo RAISE  &mo MAGNET &kp RALT  &kp RGUI
 ```
 
 The inner thumb keys are the 5th binding of the left thumb row and the 1st binding of the right thumb row.
@@ -29,6 +29,7 @@ Only the first binding in each half's thumb row changes. Do not touch the hold o
 - Never put Space on the right half or Enter on the left half of the default layer.
 - Space is a layer-tap. Keep the tap side as Space when changing which layer the hold activates.
 - Other layers use `&trans` on these two positions so they fall through to the default layer. Keep it that way.
+  Exception: the `MAGNET` layer (held with the right-thumb MAGNET key) puts `MG(RET)` (maximize) on the Space key. That is a window-management action, not a typed Enter, so leave it.
 - Update the ASCII diagram comment above `bindings` in the same edit, so the diagram and bindings agree.
 - If the Readme or the keymap-drawer JSON (`config/sofle_choc_pro.json`) shows the thumb row, update it too.
 
